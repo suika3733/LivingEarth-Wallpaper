@@ -9,6 +9,7 @@ build/
 
 # PyInstaller
 *.spec
+!LivingEarth Wallpaper.spec
 *.exe
 
 # Release packages
