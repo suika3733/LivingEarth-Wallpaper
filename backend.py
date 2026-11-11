@@ -19,7 +19,7 @@ from PIL import Image
 
 from config import (
     load_config, save_config, load_metadata, save_metadata,
-    IMAGE_CACHE_DIR, TIMELAPSE_DIR, DEFAULT_API_KEY, ALL_CATEGORY,
+    IMAGE_CACHE_DIR, TIMELAPSE_DIR, EXPORT_DIR, DEFAULT_API_KEY, ALL_CATEGORY,
 )
 from nasa_api import fetch_apod_range, download_image, ApodImage
 from categorizer import categorize_image, get_category_name, get_all_category_keys
@@ -458,6 +458,8 @@ class RealEarthBackend:
             "sats": sats,
             "total_mb": stats.get("total_mb", 0.0),
             "total_frames": stats.get("total_frames", 0),
+            "cache_path": str(TIMELAPSE_DIR),
+            "export_dir": str(EXPORT_DIR),
             "live": self._tl_live_state(),
         }
 
@@ -494,6 +496,26 @@ class RealEarthBackend:
 
     def get_storage_stats(self):
         return tl_storage_stats()
+
+    def open_timelapse_cache(self):
+        """在资源管理器中打开时间流逝缓存目录（用户可自行查看/清理帧文件）"""
+        try:
+            TIMELAPSE_DIR.mkdir(parents=True, exist_ok=True)
+            os.startfile(str(TIMELAPSE_DIR))
+            return {"ok": True, "path": str(TIMELAPSE_DIR)}
+        except Exception as e:
+            logger.error(f"open_timelapse_cache: {e}")
+            return {"ok": False, "msg": f"打开失败: {e}"}
+
+    def open_timelapse_export(self):
+        """在资源管理器中打开时间流逝导出输出目录"""
+        try:
+            EXPORT_DIR.mkdir(parents=True, exist_ok=True)
+            os.startfile(str(EXPORT_DIR))
+            return {"ok": True, "path": str(EXPORT_DIR)}
+        except Exception as e:
+            logger.error(f"open_timelapse_export: {e}")
+            return {"ok": False, "msg": f"打开失败: {e}"}
 
     # ---- 动态壁纸播放器 ----
     def _tl_live_state(self):

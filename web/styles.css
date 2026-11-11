@@ -747,3 +747,20 @@ svg { display: block; }
     radial-gradient(1px 1px at 75% 65%, #fff, transparent),
     #06120f;
 }
+
+/* ---------- 时间流逝: 缓存目录 ---------- */
+.tl-cache-path {
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--text-tertiary);
+  font-family: "Cascadia Mono", Consolas, monospace;
+  word-break: break-all;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 6px 8px;
+  cursor: default;
+}
+.tl-cache-btns { display: flex; gap: 8px; }
+.tl-cache-btns .btn { flex: 1; padding-left: 6px; padding-right: 6px; }
+.tl-cache-btns .btn svg { width: 13px; height: 13px; }

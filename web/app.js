@@ -225,6 +225,11 @@
     renderTlSatMenu();
     $("tl-stat-frames").textContent = (ov.total_frames || 0) + " 帧";
     $("tl-stat-mb").textContent = (ov.total_mb || 0) + " MB";
+    if (ov.cache_path) {
+      const cp = $("tl-cache-path");
+      cp.textContent = ov.cache_path;
+      cp.title = ov.cache_path;
+    }
     updateLiveUI(ov.live);
     const sats = ov.sats || [];
     let preferred = tl.sat;
@@ -868,6 +873,8 @@
     $("tl-export-gif").onclick = () => onExport("gif");
     $("tl-export-mp4").onclick = () => onExport("mp4");
     $("tl-delete-day").onclick = onDeleteDay;
+    $("tl-open-cache").onclick = () => api().open_timelapse_cache();
+    $("tl-open-export").onclick = () => api().open_timelapse_export();
     $("tl-task-cancel").onclick = onTaskCancel;
     // 回填日期默认值: 今天 与 前天
     {

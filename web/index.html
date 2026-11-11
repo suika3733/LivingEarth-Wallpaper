@@ -331,6 +331,21 @@
               </div>
 
               <div class="control-group">
+                <div class="cg-label">缓存目录 <span class="cg-hint">可打开后自行清理</span></div>
+                <div class="tl-cache-path" id="tl-cache-path">—</div>
+                <div class="tl-cache-btns">
+                  <button class="btn btn-secondary" id="tl-open-cache">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                    打开缓存文件夹
+                  </button>
+                  <button class="btn btn-secondary" id="tl-open-export">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/></svg>
+                    打开导出文件夹
+                  </button>
+                </div>
+              </div>
+
+              <div class="control-group">
                 <div class="cg-label">历史回填 <span class="cg-hint">最近约 40 天</span></div>
                 <div class="tl-backfill-row">
                   <input type="date" class="text-input tl-date" id="tl-backfill-start" />
