@@ -1,11 +1,21 @@
-# Live Earth Wallpaper
+# LivingEarth Wallpaper
 
 [![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-多数据源 Windows 桌面壁纸软件，支持 **NASA 天文图片 (APOD)**、**地球静止卫星实时影像** 和 **NASA SDO 太阳观测**。
+多数据源 Windows 桌面壁纸软件，支持 **NASA 天文图片 (APOD)**、**地球静止卫星实时影像**、**NASA SDO 太阳观测** 与 **卫星影像时间流逝 / 动态壁纸**。
 
 基于 [Live-Earth-Wallpapers](https://github.com/lennart-rth/Live-Earth-Wallpapers) 的卫星数据源架构，使用 CIRA RAMMB-Slider 获取多颗地球静止卫星的实时影像。
+
+## 软件截图
+
+| 🛰 卫星影像 | 🔭 天文图片 (APOD) |
+|:---:|:---:|
+| ![卫星影像](docs/screenshots/satellite.jpg) | ![天文图片](docs/screenshots/apod.jpg) |
+| **☀ 太阳观测 (SDO)** | **⏱ 时间流逝 / 动态壁纸** |
+| ![太阳观测](docs/screenshots/sdo.jpg) | ![时间流逝](docs/screenshots/timelapse.png) |
+
+*深空暗色界面 · 左侧数据源切换 · 中间参数面板 · 右侧实时预览*
 
 ## 功能特性
 
@@ -29,6 +39,11 @@
 - 多波段支持：304 Å (色球层)、171 Å (日冕)、连续光球 (太阳黑子)、带磁场线叠加
 - 约每 15-60 分钟更新一张
 
+### ⏱ 时间流逝 / 动态壁纸
+- 卫星影像自动归档与回填，按日期回放（GK2A 单日可达 80+ 帧）
+- **动态壁纸**：嵌入桌面 WorkerW 层，桌面图标正常可见、不被遮挡
+- 支持 GIF / MP4 导出，帧率与播放速度可调
+
 ### 🖼 壁纸设置
 - 支持多种壁纸样式：居中、平铺、拉伸、适应、填充
 - 壁纸右上角自动标注来源和拍摄时间
@@ -42,15 +57,15 @@
 
 - **操作系统**: Windows 10/11
 - **Python**: 3.10+
-- **依赖**: `requests`, `Pillow (PIL)`
+- **依赖**: `requests`, `Pillow (PIL)`, `pywebview`（详见 `requirements.txt`）
 
 ## 安装 & 运行
 
 ### 方式一：源码运行
 
 ```bash
-git clone https://github.com/suika3733/live-earth-wallpaper.git
-cd live-earth-wallpaper
+git clone https://github.com/suika3733/LivingEarth-Wallpaper.git
+cd LivingEarth-Wallpaper
 
 # 安装依赖
 pip install -r requirements.txt
@@ -63,28 +78,32 @@ python main.py
 
 ```bash
 pip install pyinstaller
-pyinstaller --onefile --windowed --name "LiveEarthWallpaper" --collect-all PIL main.py
+pyinstaller "LivingEarth Wallpaper.spec"
 ```
 
 ### 方式三：直接下载
 
-从 [Releases](https://github.com/suika3733/live-earth-wallpaper/releases) 页面下载压缩包，解压双击运行。
+从 [Releases](https://github.com/suika3733/LivingEarth-Wallpaper/releases) 页面下载 `LivingEarth-Wallpaper.exe`，双击运行，无需安装。
 
 > 首次启动会自动获取近 10 天的 NASA APOD 图片到本地缓存。
 
 ## 项目结构
 
 ```
-├── main.py              # 主程序 - tkinter GUI (3 面板)
+├── main.py              # 主程序入口 (pywebview 窗口)
+├── backend.py           # 后端 API (前后端桥接)
 ├── providers/           # 数据源提供商
 │   ├── geostationary.py # 地球静止卫星 (RAMMB-Slider)
 │   └── sdo.py           # NASA SDO 太阳图像
 ├── nasa_api.py          # NASA APOD API
-├── earth_api.py         # [旧] Himawari-8 直连 (保留兼容)
-├── categorizer.py       # 图片关键词分类器
+├── timelapse_player.py  # 时间流逝 / 动态壁纸播放器 (WorkerW 嵌入)
+├── archive.py           # 卫星影像归档
+├── backfill.py          # 历史影像回填
+├── export.py            # GIF / MP4 导出
 ├── wallpaper.py         # Windows 壁纸设置 + 水印
 ├── scheduler.py         # 后台调度器
 ├── config.py            # 配置管理
+├── web/                 # 前端界面 (HTML/CSS/JS)
 └── requirements.txt     # Python 依赖
 ```
 
