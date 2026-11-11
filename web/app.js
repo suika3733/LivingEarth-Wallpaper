@@ -873,8 +873,22 @@
     $("tl-export-gif").onclick = () => onExport("gif");
     $("tl-export-mp4").onclick = () => onExport("mp4");
     $("tl-delete-day").onclick = onDeleteDay;
-    $("tl-open-cache").onclick = () => api().open_timelapse_cache();
-    $("tl-open-export").onclick = () => api().open_timelapse_export();
+    $("tl-open-cache").onclick = async () => {
+      try {
+        const r = await api().open_timelapse_cache();
+        if (r && r.ok === false) setStatus(r.msg || "打开缓存目录失败", false);
+      } catch (e) {
+        setStatus("打开缓存目录失败: " + e, false);
+      }
+    };
+    $("tl-open-export").onclick = async () => {
+      try {
+        const r = await api().open_timelapse_export();
+        if (r && r.ok === false) setStatus(r.msg || "打开导出目录失败", false);
+      } catch (e) {
+        setStatus("打开导出目录失败: " + e, false);
+      }
+    };
     $("tl-task-cancel").onclick = onTaskCancel;
     // 回填日期默认值: 今天 与 前天
     {

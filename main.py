@@ -110,6 +110,12 @@ class Api:
     def get_storage_stats(self):
         return self._backend.get_storage_stats()
 
+    def open_timelapse_cache(self):
+        return self._backend.open_timelapse_cache()
+
+    def open_timelapse_export(self):
+        return self._backend.open_timelapse_export()
+
     def start_live_wallpaper(self, satellite, date=None, fps=None):
         return self._backend.start_live_wallpaper(satellite, date, fps)
 
